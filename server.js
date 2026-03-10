@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -7,6 +8,26 @@ const app = express();
 
 // 6. Enable CORS "*"
 app.use(cors());
+
+// Return ICE configuration from Environment Variables securely
+app.get('/api/ice-servers', (req, res) => {
+    res.json({
+        iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' },
+            {
+                urls: process.env.TURN_URL || 'turn:global.relay.metered.ca:80',
+                username: process.env.TURN_USERNAME || '31c70b05e68fb325671eb667',
+                credential: process.env.TURN_CREDENTIAL || 'BUhIqLvrzBotPthE'
+            },
+            {
+                urls: process.env.TURN_URL_TCP || 'turn:global.relay.metered.ca:443?transport=tcp',
+                username: process.env.TURN_USERNAME || '31c70b05e68fb325671eb667',
+                credential: process.env.TURN_CREDENTIAL || 'BUhIqLvrzBotPthE'
+            }
+        ]
+    });
+});
 
 const server = http.createServer(app);
 
