@@ -13,17 +13,16 @@ app.use(cors());
 app.get('/api/ice-servers', (req, res) => {
     res.json({
         iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun1.l.google.com:19302' },
+            { urls: process.env.STUN_URL || 'stun:127.0.0.1:3478' },
             {
-                urls: process.env.TURN_URL || 'turn:global.relay.metered.ca:80',
-                username: process.env.TURN_USERNAME || '31c70b05e68fb325671eb667',
-                credential: process.env.TURN_CREDENTIAL || 'BUhIqLvrzBotPthE'
+                urls: process.env.TURN_URL || 'turn:127.0.0.1:3478',
+                username: process.env.TURN_USERNAME || 'stranger',
+                credential: process.env.TURN_CREDENTIAL || 'thingspassword'
             },
             {
-                urls: process.env.TURN_URL_TCP || 'turn:global.relay.metered.ca:443?transport=tcp',
-                username: process.env.TURN_USERNAME || '31c70b05e68fb325671eb667',
-                credential: process.env.TURN_CREDENTIAL || 'BUhIqLvrzBotPthE'
+                urls: process.env.TURN_URL_TCP || 'turn:127.0.0.1:3478?transport=tcp',
+                username: process.env.TURN_USERNAME || 'stranger',
+                credential: process.env.TURN_CREDENTIAL || 'thingspassword'
             }
         ]
     });
