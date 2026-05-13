@@ -40,8 +40,13 @@ const io = new Server(server, {
 // 1. Maintain matchmaking queue
 let waitingUser = null;
 
+// Track raw online count
+let onlineCount = 0;
+
 io.on('connection', (socket) => {
-    console.log(`User connected: ${socket.id}`);
+    onlineCount++;
+    io.emit('online-count', onlineCount);
+    console.log(`User connected: ${socket.id}, Total: ${onlineCount}`);
 
     // 2. Event: "join"
     socket.on('join', () => {
@@ -88,6 +93,10 @@ io.on('connection', (socket) => {
         socket.to(roomId).emit('ice-candidate', candidate);
     });
 
+    socket.on('chat-message', ({ roomId, message }) => {
+        socket.to(roomId).emit('chat-message', message);
+    });
+
     // 4. Skip
     socket.on('skip', ({ roomId }) => {
         console.log(`User ${socket.id} skipped in room ${roomId}`);
@@ -112,6 +121,9 @@ io.on('connection', (socket) => {
         if (waitingUser && waitingUser.id === socket.id) {
             waitingUser = null;
         }
+
+        onlineCount--;
+        io.emit('online-count', onlineCount);
     });
 });
 
