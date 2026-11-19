@@ -13,6 +13,8 @@ app.use(cors());
 app.get('/api/ice-servers', (req, res) => {
     res.json({
         iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' },
             { urls: process.env.STUN_URL || 'stun:127.0.0.1:3478' },
             {
                 urls: process.env.TURN_URL || 'turn:127.0.0.1:3478',
