@@ -1,5 +1,9 @@
 # Setting up a Local Coturn STUN/TURN Server on Windows
 
+> [!WARNING]
+> **Temporary Development Credentials Notice:**
+> The credentials shown below (`stranger:thingspassword`) are provided strictly for local development, proof-of-concept testing, and quick setup. **Do not use these defaults in your own production deployments.** Before deploying publicly, replace these credentials with strong, randomly generated secrets in your Docker run command and `.env` file to prevent unauthorized relay hijacking of your network bandwidth.
+
 Since you are running this project on a Windows laptop, the easiest and most robust way to run Coturn (which is a Linux-based server) is by using **Docker Desktop**. 
 
 ## Step 1: Install Docker Desktop
